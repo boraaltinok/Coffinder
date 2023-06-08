@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "160947730233",
+    "project_id": "coffinder-f42e2",
+    "storage_bucket": "coffinder-f42e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160947730233:android:28596a76a3541aa62b1ae8",
+        "android_client_info": {
+          "package_name": "com.example.coffinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160947730233-nj07dt09s5ruer2u2fk7j1btjp21109k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFuQyzlf8ed6ELJ67BWC4_2meri3Lzyd4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160947730233-nj07dt09s5ruer2u2fk7j1btjp21109k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160947730233-f2phi4dvvotaq19tuifqbt7ar9gq5t90.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coffinder"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
