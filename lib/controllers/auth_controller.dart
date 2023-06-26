@@ -1,8 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:coffinder/controllers/image_picker_controller.dart';
+import 'package:coffinder/controllers/sign_up_process_controller.dart';
+import 'package:coffinder/main.dart';
+import 'package:coffinder/screens/AuthScreens/SignUpScreens/add_photos_screen.dart';
+import 'package:coffinder/screens/AuthScreens/SignUpScreens/email_verification_screen.dart';
+import 'package:coffinder/screens/AuthScreens/select_auth_method_screen.dart';
 import 'package:coffinder/screens/home_page.dart';
-import 'package:coffinder/screens/page_view_intro_screen.dart';
-import 'package:coffinder/screens/sign_in_screen.dart';
-import 'package:coffinder/screens/sign_up_screen.dart';
+import 'package:coffinder/screens/AuthScreens/SignUpScreens/page_view_intro_screen.dart';
+import 'package:coffinder/screens/AuthScreens/SignInScreens/sign_in_screen.dart';
+import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import '../Models/user_images.dart';
 import '../Utilities/SnackBarUtility.dart';
 import '../constants/constants.dart';
 import '../Models/user.dart' as userModel;
@@ -47,14 +54,29 @@ class AuthController extends GetxController{
 
   _setInitialScreen(User? user) {
     if (user == null) {
-      //Get.offAll(() => LoginScreen());
+      Get.offAll(() => SelectAuthMethodScreen());
+      Get.find<SignUpProcessController>().initializeValues();
       //Get.offAll(() => const SignUpScreen());
-      Get.offAll(()=>HomePage());
+      //Get.offAll(()=>HomePage());
     } else {
       print('UID IS : ${user.uid}');
       //Get.offAll(() => const SplashScreen());
-      Get.offAll(() => const HomePage());
+      //firebaseAuth.signOut();
+      if(Get.find<SignUpProcessController>().isEmailVerified == true){
+        //firebaseAuth.signOut();
+        print("isEmail verified true");
+        if(Get.find<ImagePickerController>().selectedImageCount < 2){
+          Get.offAll(() => const AddPhotosScreen());
+        }else{
+          Get.offAll(const HomePage());
+        }
+        print("isEmail verified true");
+        //Get.offAll(() => const EmailVerificationScreen());
 
+      }else{
+        Get.offAll(() => const EmailVerificationScreen());
+
+      }
     }
   }
 
@@ -98,8 +120,8 @@ class AuthController extends GetxController{
   }
 
   //registering user
-  Future<void> registerUser(String username, String email, String password, String verifyPassword,
-      File? image, String country, String gender) async {
+  Future<void> registerUser({required String username, required String email, required String password, required String verifyPassword,
+      File? image, required String country, required String gender}) async {
     setIsRegisteringLoading(isRegistering: true);
 
     try {
@@ -125,14 +147,15 @@ class AuthController extends GetxController{
               name: username,
               uid: credential.user!.uid,
               email: email,
-              profilePhoto: downloadUrl,
-              gender: gender);
+              userImages: UserImages(images: [
+              ]),
+              gender: gender,
+              age: 18);
 
           firestore
               .collection('users')
               .doc(credential.user!.uid)
               .set(user.toJson());
-          SnackBarUtility.showCustomSnackbar(title: 'Success', message: 'Account Created', icon:  Icon(Icons.check_circle_outline));
           setIsRegisteringLoading(isRegistering: false);
 
         }
@@ -147,6 +170,18 @@ class AuthController extends GetxController{
       SnackBarUtility.showCustomSnackbar(title: 'Error signing up', message: e.toString(), icon:  Icon(Icons.error_outline_outlined,));
       setIsRegisteringLoading(isRegistering: false);
 
+    }
+  }
+
+  Future sendVerificationEmail()async {
+    try{
+      if(authController.user == null){
+        print("it is null bro");
+      }else{
+        await authController.user?.sendEmailVerification();
+      }
+    }catch(e){
+        print(e);
     }
   }
 
@@ -199,8 +234,17 @@ class AuthController extends GetxController{
           name: name,
           uid: userCredential.user!.uid ,
           email: email,
-          profilePhoto: "",
-          gender: "");
+          userImages: UserImages(images: [
+            UserImage(
+                imageId: '1',
+                imageUrl: 'https://picsum.photos/250?image=9',
+                timestamp: DateTime.timestamp()),
+            UserImage(
+                imageId: '1',
+                imageUrl: 'https://picsum.photos/250?image=10',
+                timestamp: DateTime.timestamp())
+          ]),          gender: "",
+          age: 18);
 
       firestore
           .collection('users')
@@ -214,7 +258,7 @@ class AuthController extends GetxController{
       DocumentSnapshot doc =
       await firestore.collection('users').doc(userId).get();
 
-      userModel.User user = userModel.User.fromSnap(doc);
+      userModel.User user = userModel.User.fromSnapshot(doc);
 
       return user;
     } catch (e) {

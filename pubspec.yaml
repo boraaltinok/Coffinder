@@ -48,6 +48,8 @@ dependencies:
   firebase_storage: ^11.0.10
   image_picker: ^0.8.5+3
   chat_bubbles: ^1.4.1
+  reorderable_grid_view: ^2.2.6
+  uuid: ^3.0.7
 
 
 dev_dependencies:

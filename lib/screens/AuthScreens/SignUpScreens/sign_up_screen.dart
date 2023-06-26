@@ -1,16 +1,21 @@
+import 'package:coffinder/constants/constants.dart';
+import 'package:coffinder/controllers/sign_up_process_controller.dart';
+import 'package:coffinder/routing/app_routes.dart';
+import 'package:coffinder/screens/AuthScreens/SignUpScreens/gender_selection_screen.dart';
 import 'package:coffinder/screens/home_page.dart';
+import 'package:coffinder/screens/AuthScreens/SignInScreens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:lottie/lottie.dart';
 
-import '../Utilities/FontSizeUtility.dart';
-import '../Utilities/PaddingUtility.dart';
-import '../Widgets/text_input_field.dart';
-import '../controllers/theme_controller.dart';
+import '../../../Utilities/FontSizeUtility.dart';
+import '../../../Utilities/PaddingUtility.dart';
+import '../../../Widgets/text_input_field.dart';
+import '../../../controllers/theme_controller.dart';
 import 'package:get/get.dart';
 
-import '../themes/themes.dart';
+import '../../../themes/themes.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -20,6 +25,28 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  late final TextEditingController _emailController;
+  late final TextEditingController _userNameController;
+  late final TextEditingController _passwordController;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _emailController.dispose();
+    _userNameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _emailController = TextEditingController();
+    _userNameController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -53,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           elevation: 0,
           backgroundColor:
           themeController.appTheme.colorScheme.primaryContainer,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           actions: [
             Obx(() {
               return IconButton(
@@ -110,7 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: loginContainer(availableHeight, themeController, context),
+              child: registerContainer(availableHeight, themeController, context),
             )
           ],
         ),
@@ -118,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-  Container loginContainer(double availableHeight,
+  Container registerContainer(double availableHeight,
       ThemeController themeController, BuildContext context) {
     return Container(
       width: Get.width,
@@ -133,27 +160,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Padding(
               padding: PaddingUtility.smallAllPadding,
               child: SizedBox(
-                child: loginFieldsColumn(context, themeController),
+                child: registerFieldsColumn(context, themeController),
               ),
             ),
           ),
-          expandedEmptySpace(),
+          expandedEmptySpace(flexFactor: 1),
         ],
       ),
     );
   }
 
-  Column loginFieldsColumn(
+  Column registerFieldsColumn(
       BuildContext context, ThemeController themeController) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        emailPhoneField(context),
-        passwordField(context),
-        loginButtonContainer(context, themeController),
-        dontHaveAnAccountField(context, themeController),
-        continueWithSocialsSection(),
-        googleSignInContainer(context, themeController),
+        expandedEmptySpace(flexFactor: 1),
+        Expanded(
+          flex: 5,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              emailPhoneField(context),
+              userNameField(context),
+              passwordField(context),
+              registerButtonContainer(context, themeController),
+              dontHaveAnAccountField(context, themeController),
+            ],
+          ),
+        ),
+        expandedEmptySpace(flexFactor: 1),
       ],
     );
   }
@@ -209,18 +244,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
               thickness: 2.00,
             )),
         Text(
-          "don\'t Have an Account?",
+          "Already Have an Account? ",
           style: TextStyle(
             fontSize: FontSizeUtility.font15,
           ),
         ),
         InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const SignUpScreen()));
+              Get.toNamed(AppRoutes.signIn);
             },
             child: Text(
-              "Register",
+              "Login",
               style: TextStyle(
                   fontSize: FontSizeUtility.font20,
                   color: themeController
@@ -234,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Container loginButtonContainer(BuildContext context, ThemeController themeController) {
+  Container registerButtonContainer(BuildContext context, ThemeController themeController) {
     return Container(
       width: MediaQuery.of(context).size.width - FontSizeUtility.font40,
       height: FontSizeUtility.font30 * 2,
@@ -244,11 +278,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           border: Border.all(width: 3)),
       child: InkWell(
         onTap: () {
-          Get.offAll(()=>HomePage());
+          Get.toNamed(AppRoutes.ageSelection);
+          Get.find<SignUpProcessController>().setSignUpProcessInfo(email: _emailController.text, password: _passwordController.text, username: _userNameController.text);
         },
         child: Center(
             child: Text(
-              "login",
+              "Register",
               style: TextStyle(
                   fontSize: FontSizeUtility.font20,
                   fontWeight: FontWeight.w700),
@@ -261,7 +296,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextInputField(
-        controller: TextEditingController(),
+        controller: _passwordController,
         labelText: "password",
         icon: Icons.password,
         isObscure: true,
@@ -273,12 +308,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextInputField(
-        controller: TextEditingController(),
+        controller: _emailController,
         labelText: "email or phone number",
         icon: Icons.email,
       ),
     );
   }
 
-  Expanded expandedEmptySpace() => const Expanded(flex: 1, child: SizedBox());
+  SizedBox userNameField(BuildContext context) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: TextInputField(
+        controller: _userNameController,
+        labelText: "Name and Surname",
+        hintText: "John Pork",
+        icon: Icons.person,
+      ),
+    );
+  }
+
+  Expanded expandedEmptySpace({required flexFactor}) =>  Expanded(flex: flexFactor, child: const SizedBox());
 }

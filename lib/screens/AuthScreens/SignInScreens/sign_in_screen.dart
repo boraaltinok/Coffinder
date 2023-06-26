@@ -1,14 +1,15 @@
 import 'package:coffinder/Utilities/PaddingUtility.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
-import 'package:coffinder/screens/sign_up_screen.dart';
+import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
-import '../Utilities/FontSizeUtility.dart';
-import '../Widgets/text_input_field.dart';
-import '../themes/themes.dart';
+import '../../../Utilities/FontSizeUtility.dart';
+import '../../../Widgets/text_input_field.dart';
+import '../../../routing/app_routes.dart';
+import '../../../themes/themes.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -51,7 +52,7 @@ class _SignInScreenState extends State<SignInScreen> {
           elevation: 0,
           backgroundColor:
           themeController.appTheme.colorScheme.primaryContainer,
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           actions: [
                IconButton(
                 icon: Icon(Get.find<ThemeController>().appTheme == lightTheme
@@ -148,8 +149,8 @@ class _SignInScreenState extends State<SignInScreen> {
         passwordField(context),
         loginButtonContainer(context, themeController),
         dontHaveAnAccountField(context, themeController),
-        continueWithSocialsSection(),
-        googleSignInContainer(context, themeController),
+        //continueWithSocialsSection(),
+        //googleSignInContainer(context, themeController),
       ],
     );
   }
@@ -205,15 +206,14 @@ class _SignInScreenState extends State<SignInScreen> {
               thickness: 2.00,
             )),
         Text(
-          "don\'t Have an Account?",
+          "Don\'t Have an Account? ",
           style: TextStyle(
             fontSize: FontSizeUtility.font15,
           ),
         ),
         InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => const SignUpScreen()));
+              Get.toNamed(AppRoutes.register);
             },
             child: Text(
               "Register",

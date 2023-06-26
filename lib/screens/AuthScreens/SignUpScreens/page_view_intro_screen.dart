@@ -1,12 +1,12 @@
 import 'package:coffinder/Utilities/PaddingUtility.dart';
 import 'package:coffinder/controllers/page_view_intro_controller.dart';
-import 'package:coffinder/screens/sign_in_screen.dart';
+import 'package:coffinder/screens/AuthScreens/SignInScreens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'sign_up_screen.dart';
-import '../controllers/theme_controller.dart';
-import '../themes/themes.dart';
+import '../../../controllers/theme_controller.dart';
+import '../../../themes/themes.dart';
 
 
 

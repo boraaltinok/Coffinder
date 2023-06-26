@@ -9,13 +9,14 @@ class TextInputField extends StatelessWidget {
   final String labelText;
   final bool isObscure;
   final IconData? icon;
-
+  final String? hintText;
 
   const TextInputField(
       {Key? key,
       required this.controller,
       required this.labelText,
       this.icon,
+      this.hintText,
       this.isObscure = false})
       : super(key: key);
 
@@ -25,6 +26,7 @@ class TextInputField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
           labelText: labelText,
+          hintText: hintText,
           prefixIcon: Icon(
             icon,
           ),

@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffinder/Widgets/user_card.dart';
+import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:get/get.dart';
 
 import '../Utilities/FontSizeUtility.dart';
+import '../Utilities/QRModalBottomSheetUtility.dart';
 
 class PlatformScreen extends StatefulWidget {
   PlatformScreen({Key? key}) : super(key: key);
@@ -29,269 +32,89 @@ class _PlatformScreenState extends State<PlatformScreen> {
     super.dispose();
   }
 
-  List<Container> cards = [
-    Container(
-      width: 300,
-      height: 400,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(15)),
-      child: Stack(
-        children: [
-          Obx(() {
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Get.find<ThemeController>().appTheme.colorScheme.primaryContainer,
-                ),
-              );
-            }
-          ),
-          Positioned(
-            top: 6,
-            right: 6,
-            left: 6,
-            bottom: 130,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl:
-                    "https://images.unsplash.com/photo-1547721064-da6cfb341d50",
-              ),
-            ),
-          ),
-          Positioned(
-            top: 270,
-            left: 6,
-            right: 6,
-            bottom: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    child: Text(
-                      'Foid, 24',
-                      style: TextStyle(fontSize: FontSizeUtility.font35),
-                    )),
-                Container(
-                  child: Text("I love fitness and sucking cocks. Buy me coffe", style: TextStyle(fontSize: FontSizeUtility.font20),),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      width: 300,
-      height: 400,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(15)),
-      child: Stack(
-        children: [
-          Obx(() {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Get.find<ThemeController>().appTheme.colorScheme.primaryContainer,
-              ),
-            );
-          }
-          ),
-          Positioned(
-            top: 6,
-            right: 6,
-            left: 6,
-            bottom: 130,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl:
-                "https://images.unsplash.com/photo-1547721064-da6cfb341d50",
-              ),
-            ),
-          ),
-          Positioned(
-            top: 270,
-            left: 6,
-            right: 6,
-            bottom: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    child: Text(
-                      'Foid, 24',
-                      style: TextStyle(fontSize: FontSizeUtility.font35),
-                    )),
-                Container(
-                  child: Text("I love fitness and sucking cocks. Buy me coffe", style: TextStyle(fontSize: FontSizeUtility.font20),),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-
-    Container(
-      width: 300,
-      height: 400,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(15)),
-      child: Stack(
-        children: [
-          Obx(() {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Get.find<ThemeController>().appTheme.colorScheme.primaryContainer,
-              ),
-            );
-          }
-          ),
-          Positioned(
-            top: 6,
-            right: 6,
-            left: 6,
-            bottom: 130,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl:
-                "https://images.unsplash.com/photo-1547721064-da6cfb341d50",
-              ),
-            ),
-          ),
-          Positioned(
-            top: 270,
-            left: 6,
-            right: 6,
-            bottom: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    child: Text(
-                      'Foid, 24',
-                      style: TextStyle(fontSize: FontSizeUtility.font35),
-                    )),
-                Container(
-                  child: Text("I love fitness and sucking cocks. Buy me coffe", style: TextStyle(fontSize: FontSizeUtility.font20),),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-
-    Container(
-      width: 300,
-      height: 400,
-      decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(15)),
-      child: Stack(
-        children: [
-          Obx(() {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: Get.find<ThemeController>().appTheme.colorScheme.primaryContainer,
-              ),
-            );
-          }
-          ),
-          Positioned(
-            top: 6,
-            right: 6,
-            left: 6,
-            bottom: 130,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl:
-                "https://images.unsplash.com/photo-1547721064-da6cfb341d50",
-              ),
-            ),
-          ),
-          Positioned(
-            top: 270,
-            left: 6,
-            right: 6,
-            bottom: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    child: Text(
-                      'Foid, 24',
-                      style: TextStyle(fontSize: FontSizeUtility.font35),
-                    )),
-                Container(
-                  child: Text("I love fitness and sucking cocks. Buy me coffe", style: TextStyle(fontSize: FontSizeUtility.font20),),
-                )
-              ],
-            ),
-          ),
-        ],
-      ),
-    ),
-
+  List<UserCard> cards = [
+    UserCard(),
+    UserCard(),
+    UserCard(),
+    UserCard(),
+    UserCard(),
+    UserCard(),
+    UserCard(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(children: [
-        Expanded(
-          flex: 4,
-          child: CardSwiper(
-            controller: cardSwiperController,
-            backCardOffset: Offset(0, 0),
-            isLoop: true,
-            onSwipe: (previousIndex, currentIndex, direction) {
-              if (direction == CardSwiperDirection.left) {
-                Get.snackbar("Title", "no way left");
-              } else if (direction == CardSwiperDirection.right) {
-                Get.snackbar("Title", "no way right");
-              } else {
-                Get.snackbar("Title", "no way");
-              }
-              return true; //if this is false it cancels swipe action
-            },
-            allowedSwipeDirection:
-                AllowedSwipeDirection.only(right: true, left: true),
-            cardsCount: cards.length,
-            cardBuilder: (context, index) => Center(child: cards[index]),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FloatingActionButton(
-                heroTag: 'swipeLeftButton',
-                onPressed: cardSwiperController.swipeLeft,
-                child: const Icon(Icons.keyboard_arrow_left),
+      body: Obx(() {
+          return SizedBox(
+            width: Get.width,
+            height: Get.height,
+            child: Get.find<PlatformController>().isConnectedToPlatform ? Column(children: [
+              Expanded(
+                flex: 4,
+                child: CardSwiper(
+                  controller: cardSwiperController,
+                  backCardOffset: Offset(0, 0),
+                  isLoop: true,
+                  onSwipe: (previousIndex, currentIndex, direction) {
+                    if (direction == CardSwiperDirection.left) {
+                      Get.snackbar("Title", "no way left");
+                    } else if (direction == CardSwiperDirection.right) {
+                      Get.snackbar("Title", "no way right");
+                    } else {
+                      Get.snackbar("Title", "no way");
+                    }
+                    return true; //if this is false it cancels swipe action
+                  },
+                  allowedSwipeDirection:
+                      AllowedSwipeDirection.only(right: true, left: true),
+                  cardsCount: cards.length,
+                  cardBuilder: (context, index) => Center(child: cards[index]),
+                ),
               ),
-              FloatingActionButton(
-                heroTag: 'swipeRightButton',
-                onPressed: cardSwiperController.swipeRight,
-                child: const Icon(Icons.keyboard_arrow_right),
-              ),
-            ],
-          ),
-        )
-      ]),
+              Expanded(
+                flex: 1,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'swipeLeftButton',
+                      onPressed: cardSwiperController.swipeLeft,
+                      child: const Icon(Icons.close),
+                    ),
+                    SizedBox(
+                      width: Get.width / 10,
+                    ),
+                    FloatingActionButton(
+                      heroTag: 'swipeRightButton',
+                      onPressed: cardSwiperController.swipeRight,
+                      child: const Icon(Icons.check),
+                    ),
+                  ],
+                ),
+              )
+            ]): Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "Connect to a platform to see others!",
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  width: Get.width,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        QRModalBottomSheetUtility.buildQRScanBottomSheet(
+                            context);
+                      },
+                      child: const Text("CONNECT TO A PLATFORM")),
+                )
+              ],
+            ),
+          );
+        }
+      ),
     );
   }
 

@@ -22,6 +22,8 @@ class PaddingUtility {
   static EdgeInsets largeWidthOnlyPadding =
       EdgeInsets.fromLTRB(screenWidth * 3 / 10, 0, screenWidth * 3 / 10, 0);
 
+  static EdgeInsets xSmallHeightOnlyPadding =
+  EdgeInsets.fromLTRB(0 ,screenHeight * 1 / 20 / 8, 0, screenHeight * 1 / 20 / 8);
   static EdgeInsets smallHeightOnlyPadding =
   EdgeInsets.fromLTRB(0 ,screenHeight * 1 / 20, 0, screenHeight * 1 / 20);
   static EdgeInsets mediumHeightOnlyPadding =

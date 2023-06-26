@@ -1,78 +1,208 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffinder/Models/chat.dart';
 import 'package:coffinder/Models/location.dart';
+import 'package:coffinder/Models/match.dart';
 import 'package:coffinder/Models/message.dart';
 import 'package:coffinder/Models/user.dart';
+import 'package:coffinder/Models/user_images.dart';
 
 class FakeData {
   String fakeCurrentUserUID = '1';
+
+  List<String> images = [
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Outdoors-man-portrait_%28cropped%29.jpg/1200px-Outdoors-man-portrait_%28cropped%29.jpg',
+    'https://ultraluksyasam.com/wp-content/uploads/2023/02/Cagatay-Ulusoy-2.jpg',
+    'https://hips.hearstapps.com/hmg-prod/images/Emma-Watson_GettyImages-619546914.jpg',
+    'https://i.pinimg.com/originals/66/d2/6f/66d26f8d83fe74bed6972025b4c5b29d.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jeremy_Meeks_Mug_Shot.jpg/640px-Jeremy_Meeks_Mug_Shot.jpg',
+    'https://youthscape.ams3.cdn.digitaloceanspaces.com/images/16723620780107.remini-enhanced.jpg',
+    'https://i.hbrcdn.com/haber/2022/11/22/hadise-instagram-paylasimi-nedir-hadise-ne-dedi-15446459_9567_amp.jpg',
+    'https://i.pinimg.com/originals/0b/4b/33/0b4b337a5ade62a298df91c267d6ee3e.jpg',
+    'https://previews.123rf.com/images/mehmetcan/mehmetcan1711/mehmetcan171101048/89506569-beautiful-girl-drinking-coffee-at-the-coffee-shop.jpg',
+    'https://cdn2.stylecraze.com/wp-content/uploads/2021/11/Benefits-Of-Drinking-Coffee.jpg',
+    'https://ichef.bbci.co.uk/news/976/cpsprodpb/7BA4/production/_100825613_gettyimages-496948478-1.jpg',
+    'https://e0.365dm.com/22/10/1600x900/skysports-jake-paul-hasim-rahman-jr_5949975.jpg?20221031140146'
+  ];
+
+  List<Match> fakeMatches = [
+    Match(matchId: '1', user1Id: '1', user2Id: '2', locationId: '1'),
+    Match(matchId: '2', user1Id: '1', user2Id: '3', locationId: '1'),
+    Match(matchId: '3', user1Id: '1', user2Id: '4', locationId: '1'),
+    Match(matchId: '4', user1Id: '1', user2Id: '5', locationId: '1'),
+    Match(matchId: '5', user1Id: '1', user2Id: '6', locationId: '1'),
+    Match(matchId: '6', user1Id: '1', user2Id: '7', locationId: '1'),
+    Match(matchId: '7', user1Id: '1', user2Id: '8', locationId: '1'),
+  ];
+
   List<User> users = [
     User(
         name: 'Bora',
         uid: '1',
         email: 'b@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        gender: 'Erkek',
+        age: 18,
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp())
+        ])),
     User(
         name: 'Ceyda',
         uid: '2',
         email: 'c@g.com',
-        profilePhoto: '',
-        gender: 'Kadın'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Kadın',
+        age: 18),
     User(
         name: 'Ali',
         uid: '3',
         email: 'a@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Erkek',
+        age: 18),
     User(
         name: 'Berke',
         uid: '4',
         email: 'be@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Erkek',
+        age: 18),
     User(
         name: 'Sena',
         uid: '5',
         email: 'sen@g.com',
-        profilePhoto: '',
-        gender: 'Kadın'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Kadın',
+        age: 18),
     User(
         name: 'Bobo',
         uid: '6',
         email: 'bob@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Erkek',
+        age: 18),
     User(
         name: 'Ceydog',
         uid: '7',
         email: 'cey@g.com',
-        profilePhoto: '',
-        gender: 'Kadın'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Kadın',
+        age: 18),
     User(
         name: 'Kalman',
         uid: '8',
         email: 'kal@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Erkek',
+        age: 18),
     User(
         name: 'Shervin',
         uid: '9',
         email: 'she@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Erkek',
+        age: 18),
     User(
         name: 'Hamdi',
         uid: '10',
         email: 'h@g.com',
-        profilePhoto: '',
-        gender: 'Erkek'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Erkek',
+        age: 18),
     User(
         name: 'Ceydawg',
         uid: '11',
         email: 'dawg@g.com',
-        profilePhoto: '',
-        gender: 'Kadın'),
+        userImages: UserImages(images: [
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=9',
+              timestamp: DateTime.timestamp()),
+          UserImage(
+              imageId: '1',
+              imageUrl: 'https://picsum.photos/250?image=10',
+              timestamp: DateTime.timestamp())
+        ]),
+        gender: 'Kadın',
+        age: 18),
   ];
 
   User? getUser({required String userId}) {
@@ -209,7 +339,8 @@ class FakeData {
         receiverId: '1'),
     Message(
         senderId: '1',
-        messageText: 'Mübarek koky yoksa ben yokum. Hadi ben kaçtım AKJSLDNAJOKLDNAJLDNAŞJLDNALJ',
+        messageText:
+            'Mübarek koky yoksa ben yokum. Hadi ben kaçtım AKJSLDNAJOKLDNAJLDNAŞJLDNALJ',
         timestamp: Timestamp.now(),
         messageId: '21',
         receiverId: '2'),

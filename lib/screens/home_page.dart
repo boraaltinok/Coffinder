@@ -1,5 +1,7 @@
 import 'package:coffinder/Utilities/PaddingUtility.dart';
+import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/bottom_navigation_controller.dart';
+import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
 import 'package:coffinder/screens/chats_screen.dart';
 import 'package:coffinder/screens/coffee_shop_screen.dart';
@@ -33,6 +35,15 @@ class _HomePageState extends State<HomePage> {
       return Scaffold(
         appBar: AppBar(
           title: Text("Coffinder"),
+          leading: IconButton(
+            icon: Icon(
+              Icons.exit_to_app_outlined,
+              color: Get.find<ThemeController>().appTheme.colorScheme.error,
+            ),
+            onPressed: () {
+              authController.signOut();
+            },
+          ),
           actions: [
             Obx(() {
               return IconButton(
@@ -52,6 +63,9 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
+            Get.find<PlatformController>().setIsConnectedToPlatform(
+                isConnected:
+                    !Get.find<PlatformController>().isConnectedToPlatform);
             QRModalBottomSheetUtility.buildQRScanBottomSheet(context);
           },
           child: const Icon(

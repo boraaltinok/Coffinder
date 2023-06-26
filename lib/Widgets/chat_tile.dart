@@ -8,7 +8,7 @@ class ChatTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final String locationName;
-  final Image? image;
+  final String? imagePath;
   final DateTime? date;
   final int? count;
   final Icon? icon;
@@ -20,7 +20,7 @@ class ChatTile extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.locationName,
-    this.image,
+    this.imagePath = "",
     this.date,
     this.count,
     this.icon,
@@ -44,6 +44,7 @@ class ChatTile extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 30,
+                    backgroundImage: imagePath == "" ? null:NetworkImage(imagePath!),
                   ),
                   Expanded(
                     child: Padding(
