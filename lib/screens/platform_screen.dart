@@ -3,6 +3,7 @@ import 'package:coffinder/Models/user_images.dart';
 import 'package:coffinder/Utilities/PaddingUtility.dart';
 import 'package:coffinder/Utilities/SnackBarUtility.dart';
 import 'package:coffinder/Widgets/user_card.dart';
+import 'package:coffinder/Widgets/user_platform_card.dart';
 import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/screens/MatchedBottomSheet.dart';
@@ -205,8 +206,10 @@ class _PlatformScreenState extends State<PlatformScreen> {
         return Visibility(
           visible: true,
           //!_platformController.swipedUsers.contains(_platformController.connectedUsers[index].uid),
-          child: UserCard(
+          child: UserPlatformCard(
             userName: _platformController.connectedUsers[index].name,
+            userImageList:
+                _platformController.connectedUsers[index].userImages.images,
             selectedImage: _platformController
                 .connectedUsers[index].userImages.images[index].imageUrl,
             age: '1',

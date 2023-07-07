@@ -52,6 +52,7 @@ dependencies:
   uuid: ^3.0.7
   google_fonts: any
   story_view: ^0.14.0
+  carousel_slider: ^4.2.1
 
 
 
