@@ -1,0 +1,41 @@
+SliverChildListDelegate(_chatController.currentChats
+                            .map((chat) => ChatTile(
+                                  imagePath: FakeData()
+                                      .getUser(userId: chat.participants[1])
+                                      ?.userImages
+                                      .images[0]
+                                      .imageId,
+                                  title: FakeData()
+                                          .getUser(userId: chat.participants[1])
+                                          ?.name ??
+                                      "default",
+                                  subtitle: chat.lastMessage?.messageText ??
+                                      "Empty last message",
+                                  locationName: chat.locationName,
+                                  onTap: () async {
+                                    String firsParticipantId =
+                                        chat.participants[0];
+                                    String secondParticipantId =
+                                        chat.participants[1];
+
+                                    String contactUserId =
+                                        authController.user.uid ==
+                                                firsParticipantId
+                                            ? secondParticipantId
+                                            : firsParticipantId;
+                                    User? contactUser = await authController
+                                        .getUser(userId: contactUserId);
+                                    User defaultUser = User(
+                                        name: 'default',
+                                        uid: 'default',
+                                        email: 'default',
+                                        gender: 'default',
+                                        age: 1,
+                                        userImages: UserImages(images: []));
+                                    Get.to(MessagesScreen(
+                                      contactUser: contactUser ?? defaultUser,
+                                      chatId: chat.chatId,
+                                    ));
+                                  },
+                                ))
+                            .toList()
