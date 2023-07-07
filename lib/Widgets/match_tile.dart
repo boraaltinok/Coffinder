@@ -3,8 +3,15 @@ import 'package:coffinder/Utilities/DimensionsUtility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../Models/user.dart';
+import '../Models/match.dart';
+
 class MatchTile extends StatelessWidget {
-  const MatchTile({Key? key}) : super(key: key);
+  const MatchTile(
+      {Key? key, required this.matchedUser, required this.locationName})
+      : super(key: key);
+  final User matchedUser;
+  final String locationName;
 
   @override
   Widget build(BuildContext context) {
@@ -15,11 +22,12 @@ class MatchTile extends StatelessWidget {
           CircleAvatar(
             radius: DimensionsUtility.radius30,
             backgroundImage: CachedNetworkImageProvider(
-              "https://images.unsplash.com/photo-1547721064-da6cfb341d50",
-            ),
+                matchedUser.userImages.images[0].imageUrl),
           ),
-          Text('Bora',),
-          Text('(Starbucks)')
+          Text(
+            matchedUser.name.toString(),
+          ),
+          Text(locationName)
         ],
       ),
     );

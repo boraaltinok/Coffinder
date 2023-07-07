@@ -21,7 +21,7 @@ class CoffeeShopScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("Currently Not Connected to a Platform"),
-                  Container(
+                  SizedBox(
                     width: Get.width,
                     child: ElevatedButton(
                         onPressed: () {

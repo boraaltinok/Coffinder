@@ -107,7 +107,6 @@ class _GenderSelectionScreenState extends State<GenderSelectionScreen> {
               verifyPassword: _signUpProcessController.password,
               country: "country",
               gender: _signUpProcessController.gender.toString());
-          Get.toNamed(AppRoutes.emailVerification);
         }
       },
     );

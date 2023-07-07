@@ -1,4 +1,5 @@
 import 'package:coffinder/Utilities/PaddingUtility.dart';
+import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,17 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
@@ -239,7 +251,9 @@ class _SignInScreenState extends State<SignInScreen> {
           borderRadius: const BorderRadius.all(Radius.circular(5)),
           border: Border.all(width: 3)),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          authController.loginUser(_emailController.text.toString(), _passwordController.text.toString());
+        },
         child: Center(
             child: Text(
               "login",
@@ -255,7 +269,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextInputField(
-        controller: TextEditingController(),
+        controller: _passwordController,
         labelText: "password",
         icon: Icons.password,
         isObscure: true,
@@ -267,7 +281,7 @@ class _SignInScreenState extends State<SignInScreen> {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextInputField(
-        controller: TextEditingController(),
+        controller: _emailController,
         labelText: "email or phone number",
         icon: Icons.email,
       ),

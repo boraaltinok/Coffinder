@@ -6,6 +6,8 @@ import 'package:coffinder/Models/message.dart';
 import 'package:coffinder/Models/user.dart';
 import 'package:coffinder/Models/user_images.dart';
 
+import 'constants/constants.dart';
+
 class FakeData {
   String fakeCurrentUserUID = '1';
 
@@ -24,7 +26,7 @@ class FakeData {
     'https://e0.365dm.com/22/10/1600x900/skysports-jake-paul-hasim-rahman-jr_5949975.jpg?20221031140146'
   ];
 
-  List<Match> fakeMatches = [
+  /*List<Match> fakeMatches = [
     Match(matchId: '1', user1Id: '1', user2Id: '2', locationId: '1'),
     Match(matchId: '2', user1Id: '1', user2Id: '3', locationId: '1'),
     Match(matchId: '3', user1Id: '1', user2Id: '4', locationId: '1'),
@@ -32,7 +34,7 @@ class FakeData {
     Match(matchId: '5', user1Id: '1', user2Id: '6', locationId: '1'),
     Match(matchId: '6', user1Id: '1', user2Id: '7', locationId: '1'),
     Match(matchId: '7', user1Id: '1', user2Id: '8', locationId: '1'),
-  ];
+  ];*/
 
   List<User> users = [
     User(
@@ -481,5 +483,19 @@ class FakeData {
               receiverId: '1')),
     ];
     return chatList;
+  }
+
+  Future addFakeLocationToFirestore() async{
+     Location location = Location(locationId: '1', name: 'Federal', latitude: 1, longitude: 1);
+
+    firestore
+        .collection('locations')
+        .doc('Starbucks')
+        .set(location.toJson());
+
+     firestore
+         .collection('locations')
+         .doc('Starbucks')
+     .collection('connected_users').doc('dma4Vw7c7aZMiGV25Kv5YU7HUUA3').set({});
   }
 }

@@ -16,5 +16,7 @@ class FontSizeUtility {
   static double font30 = screenHeight * (30 /galaxyA51HeightPixels );
   static double font35 = screenHeight * (35 /galaxyA51HeightPixels );
   static double font40 = screenHeight * (40 /galaxyA51HeightPixels );
+  static double font45 = screenHeight * (45 /galaxyA51HeightPixels );
+
 
 }

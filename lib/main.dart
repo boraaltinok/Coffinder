@@ -1,8 +1,13 @@
+import 'package:coffinder/controllers/chat_controller.dart';
+import 'package:coffinder/controllers/location_controller.dart';
+import 'package:coffinder/controllers/matches_controller.dart';
+import 'package:coffinder/controllers/messages_controller.dart';
 import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/sign_up_process_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
+import 'package:coffinder/fake_data.dart';
 import 'package:coffinder/routing/app_routes.dart';
-import 'package:coffinder/screens/AuthScreens/SignUpScreens/user_controller.dart';
+import 'package:coffinder/controllers/user_controller.dart';
 import 'package:coffinder/screens/home_page.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/page_view_intro_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
@@ -11,6 +16,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'controllers/auth_controller.dart';
+import 'controllers/bottom_navigation_controller.dart';
 import 'controllers/image_picker_controller.dart';
 
 main() async {
@@ -19,11 +25,19 @@ main() async {
   await Firebase.initializeApp().then((value) {
     Get.put(ThemeController());
     Get.put(AuthController());
+    Get.find<AuthController>();
     Get.put(UserController());
     Get.put(SignUpProcessController());
-    Get.find<SignUpProcessController>();
     Get.put(ImagePickerController());
     Get.put(PlatformController());
+    Get.put(BottomNavigationController());
+    Get.put(MatchesController());
+    Get.put(ChatController());
+    Get.put(MessagesController());
+    Get.put(LocationController());
+
+
+    //FakeData().addFakeLocationToFirestore();
   });
   runApp(const MyApp());
 }

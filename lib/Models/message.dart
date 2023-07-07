@@ -23,14 +23,25 @@ class Message {
     'timestamp': timestamp,
   };
 
+  factory Message.fromMap(Map<String, dynamic> map) {
+    return Message(
+      messageId: map['messageId'],
+      senderId: map['senderId'],
+      receiverId: map['receiverId'],
+      messageText: map['messageText'],
+      timestamp: map['timestamp'] as Timestamp,
+    );
+  }
+
   static Message fromSnapshot(DocumentSnapshot snapshot) {
+
     var data = snapshot.data() as Map<String, dynamic>;
     return Message(
       messageId: data['messageId'],
       senderId: data['senderId'],
       receiverId: data['receiverId'],
       messageText: data['messageText'],
-      timestamp: data['timestamp'],
+      timestamp: data['timestamp'] as Timestamp,// Convert to Timestamp object
     );
   }
 }

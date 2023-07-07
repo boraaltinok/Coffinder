@@ -2,31 +2,35 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Match {
   String matchId;
-  String user1Id;
-  String user2Id;
+  String currentUserId;
+  String matchedUserId;
   String locationId;
+  bool isShown;
 
   Match({
     required this.matchId,
-    required this.user1Id,
-    required this.user2Id,
+    required this.currentUserId,
+    required this.matchedUserId,
     required this.locationId,
+    this.isShown = false,
   });
 
   Map<String, dynamic> toJson() => {
     "matchId": matchId,
-    "user1Id": user1Id,
-    "user2Id": user2Id,
+    "currentUserId": currentUserId,
+    "matchedUserId": matchedUserId,
     "locationId": locationId,
+    "isShown": isShown
   };
 
   static Match fromSnapshot(DocumentSnapshot snapshot) {
     var data = snapshot.data() as Map<String, dynamic>;
     return Match(
       matchId: data['matchId'],
-      user1Id: data['user1Id'],
-      user2Id: data['user2Id'],
+        currentUserId: data['currentUserId'],
+        matchedUserId: data['matchedUserId'],
       locationId: data['locationId'],
+      isShown: data['isShown']
     );
   }
 }

@@ -26,10 +26,11 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("init stateeeeeeeee");
     if (Get.find<SignUpProcessController>().isEmailVerified == null ||
         Get.find<SignUpProcessController>().isEmailVerified == false) {
+      print("calling sendSMS");
       Get.find<SignUpProcessController>().sendSMS();
-        Get.find<SignUpProcessController>().smsVerificationTimer.value;
     }
   }
 
@@ -72,7 +73,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   Obx buildSMSVerificationButton() {
     SignUpProcessController _signUpProcessController =
-        Get.put(SignUpProcessController());
+        Get.find<SignUpProcessController>();
     return Obx(() {
       return ElevatedButton(
           style: ElevatedButton.styleFrom(

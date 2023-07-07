@@ -16,9 +16,11 @@ class SignUpProcessController extends GetxController {
       Rx<bool?>(firebaseAuth.currentUser?.emailVerified ?? false);
   late final Rx<bool> _readyToSendAgain = Rx<bool>(true);
 
-  late Rx<Timer?> smsVerificationTimer = Rx<Timer?>(
-      Timer.periodic(const Duration(seconds: 5), (_) => checkEmailVerified()));
-  late Rx<Timer?> _readyToSendTimer;
+
+  Timer? smsVerificationTimer;
+  Timer? _readyToSendTimer;
+  //late Rx<Timer?> smsVerificationTimer;
+  //late Rx<Timer?> _readyToSendTimer;
 
   bool? get isEmailVerified => _isEmailVerified.value;
 
@@ -97,21 +99,40 @@ class SignUpProcessController extends GetxController {
   Future sendSMS() async {
     authController.sendVerificationEmail();
     setReadyToSendAgain(isReady: false);
-    _readyToSendTimer = Rx<Timer?>(Timer(Duration(seconds: 5), () {
+
+
+    stopTimers();  // Cancel existing timers if they are active
+
+    if(!authController.user.emailVerified){
+      print("inside not verified");
+      smsVerificationTimer = Timer.periodic(const Duration(seconds: 5), (_) {
+        checkEmailVerified();
+      });
+    }
+    _readyToSendTimer = Timer(const Duration(seconds: 5), () {
+      print("I am also working");
       setReadyToSendAgain(isReady: true);
-    }));
+    });
+    /*smsVerificationTimer = Rx<Timer?>(
+        Timer.periodic(const Duration(seconds: 5), (_) => checkEmailVerified()));
+    _readyToSendTimer = Rx<Timer?>(Timer(Duration(seconds: 5), () {
+      print("I am also working");
+      setReadyToSendAgain(isReady: true);
+    }));*/
   }
+
+  void stopTimers() {
+    smsVerificationTimer?.cancel();
+    _readyToSendTimer?.cancel();
+  }
+
 
   Future checkEmailVerified() async {
     print("chcecking $isEmailVerified");
     await firebaseAuth.currentUser!.reload();
     _isEmailVerified.value = firebaseAuth.currentUser!.emailVerified;
     if (_isEmailVerified.value == true) {
-      smsVerificationTimer.value?.cancel();
-      smsVerificationTimer.value?.cancel();
-      _readyToSendTimer.value?.cancel();
-      initializeValues();
-
+      stopTimers();
       Get.toNamed(AppRoutes.addPhotos);
     }
   }

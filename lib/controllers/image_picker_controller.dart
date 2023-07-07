@@ -9,12 +9,23 @@ import '../constants/constants.dart';
 
 class ImagePickerController extends GetxController {
   final RxList<File?> _selectedImages = List<File?>.filled(6, null).obs;
-
-  get selectedImages => _selectedImages.value;
-
   final RxInt _selectedImageCount = 0.obs;
 
   int get selectedImageCount => _selectedImageCount.value;
+  get selectedImages => _selectedImages.value;
+
+
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+  }
+
+  void initializeVariables(){
+    _selectedImages.value = List<File?>.filled(6, null);
+    _selectedImageCount.value = 0;
+  }
 
 
 
@@ -37,7 +48,6 @@ class ImagePickerController extends GetxController {
   }
 
   Future<void> uploadSelectedImages() async {
-
     final userDocRef = firestore.collection('users').doc(authController.user.uid);
 
     final userSnapshot = await userDocRef.get();

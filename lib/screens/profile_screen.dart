@@ -1,13 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:coffinder/Models/user_images.dart';
-import 'package:coffinder/Widgets/text_input_field.dart';
-import 'package:coffinder/constants/constants.dart';
+import 'package:coffinder/Utilities/RadiusUtility.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
-import 'package:coffinder/screens/AuthScreens/SignUpScreens/user_controller.dart';
+import 'package:coffinder/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -25,8 +25,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // TODO: implement initState
     super.initState();
     _fetchCurrentUserImages();
+    print("after fetch ${userController.userImages.value}");
   }
 
+//
   Future<void> _fetchCurrentUserImages() async {
     await userController.fetchCurrentUserImages();
   }
@@ -55,20 +57,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Obx(() {
                       String? firstUserImage;
-                      List<UserImage?> userImages = userController.userImages.value;
+                      List<UserImage?> userImages =
+                          userController.userImages.value;
 
-                      if (userImages.isNotEmpty) {
+                      if (userImages.isNotEmpty && userImages != null) {
                         firstUserImage = userImages[0]?.imageUrl;
                       }
-
-                      bool isUserImageEmpty = firstUserImage == null || firstUserImage.isEmpty;
+                      bool isUserImageEmpty =
+                          firstUserImage == null || firstUserImage.isEmpty;
 
                       return Container(
                         decoration: BoxDecoration(
-                            image:  DecorationImage(
-                              image: NetworkImage(
-                                !isUserImageEmpty  ? firstUserImage! :
-                                'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jeremy_Meeks_Mug_Shot.jpg/640px-Jeremy_Meeks_Mug_Shot.jpg',
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(
+                                !isUserImageEmpty
+                                    ? firstUserImage!
+                                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jeremy_Meeks_Mug_Shot.jpg/640px-Jeremy_Meeks_Mug_Shot.jpg',
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -77,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 .colorScheme
                                 .surfaceVariant,
                             borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
+                                RadiusUtility.smallBorderCircularRadius)
                       );
                     }),
                     Positioned(
@@ -85,7 +89,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         right: 5,
                         child: IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.add_a_photo_outlined,
                               size: 35,
                             ))),
@@ -94,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         right: 5,
                         child: IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.add_photo_alternate_outlined,
                               size: 35,
                             ))),
@@ -102,29 +106,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Expanded(
-                child: Container(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Bigoraphy:",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text(
+                        "Bigoraphy:",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextField(
+                        controller: _bioController,
+                        keyboardType: TextInputType.multiline,
+                        //maxLines: 10,
+                        autofocus: false,
+                        maxLines: 6,
+                        decoration: const InputDecoration(
+                          alignLabelWithHint: true,
+                          labelText: "Add your bio here",
                         ),
-                        TextField(
-                          controller: _bioController,
-                          keyboardType: TextInputType.multiline,
-                          //maxLines: 10,
-                          autofocus: false,
-                          maxLines: 6,
-                          decoration: const InputDecoration(
-                            alignLabelWithHint: true,
-                            labelText: "Add your bio here",
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               )

@@ -5,7 +5,7 @@ import 'message.dart';
 class Chat {
   String chatId;
   List<String> participants;
-  Message lastMessage;
+  Message? lastMessage;
   String locationId; // Add location ID field
   String locationName; // Add location name field
 
@@ -13,7 +13,7 @@ class Chat {
   Chat({
     required this.chatId,
     required this.participants,
-    required this.lastMessage,
+    this.lastMessage,
     required this.locationId,
     required this.locationName,
   });
@@ -23,17 +23,19 @@ class Chat {
     'participants': participants,
     'locationId': locationId,
     'locationName': locationName,
-    'lastMessage': lastMessage.toJson(),
+    'lastMessage': lastMessage?.toJson(),
   };
 
   static Chat fromSnapshot(DocumentSnapshot snapshot) {
     var data = snapshot.data() as Map<String, dynamic>;
+    Message lastMessage = Message.fromMap(data['lastMessage']);
+
     return Chat(
       chatId: data['chatId'],
       participants: List<String>.from(data['participants']),
       locationId: data['locationId'],
       locationName: data['locationName'],
-      lastMessage: Message.fromSnapshot(data['lastMessage']),
+      lastMessage: lastMessage,
     );
   }
 }

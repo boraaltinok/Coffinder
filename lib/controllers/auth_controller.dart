@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffinder/controllers/image_picker_controller.dart';
 import 'package:coffinder/controllers/sign_up_process_controller.dart';
+import 'package:coffinder/controllers/user_controller.dart';
 import 'package:coffinder/main.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/add_photos_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/email_verification_screen.dart';
@@ -28,6 +29,7 @@ class AuthController extends GetxController{
   late Rx<File?> _pickedImage = File("")
       .obs; //this is observable keeps track if the image variable is changed or not
   late Rx<User?> _user; // this is not model user this is FİREBASE AUTH USER
+
   Rx<String> profilePhotoPath = "".obs;
 
   File? get profilePhoto => _pickedImage.value;
@@ -52,21 +54,29 @@ class AuthController extends GetxController{
         _setInitialScreen); //whenever there is change in the user call _setInitialScreen method
   }
 
-  _setInitialScreen(User? user) {
-    if (user == null) {
+  _setInitialScreen(User? user) async {
+    if (user == null ) {
       Get.offAll(() => SelectAuthMethodScreen());
       Get.find<SignUpProcessController>().initializeValues();
+      Get.find<ImagePickerController>().initializeVariables();
+
       //Get.offAll(() => const SignUpScreen());
       //Get.offAll(()=>HomePage());
     } else {
+
+
+        userModel.User? currentUser = await authController.getUser(userId: user.uid);
+
+
       print('UID IS : ${user.uid}');
       //Get.offAll(() => const SplashScreen());
       //firebaseAuth.signOut();
-      if(Get.find<SignUpProcessController>().isEmailVerified == true){
+      if(user.emailVerified == true){
         //firebaseAuth.signOut();
         print("isEmail verified true");
-        if(Get.find<ImagePickerController>().selectedImageCount < 2){
-          Get.offAll(() => const AddPhotosScreen());
+        if((currentUser?.userImages.images.length ?? 0 )< 2){
+          //Get.offAll(() => const AddPhotosScreen());
+          print("less than 2");
         }else{
           Get.offAll(const HomePage());
         }
@@ -74,6 +84,7 @@ class AuthController extends GetxController{
         //Get.offAll(() => const EmailVerificationScreen());
 
       }else{
+        print("inside else");
         Get.offAll(() => const EmailVerificationScreen());
 
       }

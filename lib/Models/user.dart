@@ -8,24 +8,33 @@ class User {
   String gender;
   int age;
   UserImages userImages; // UserImages sub-collection
+  bool isConnected;
+  String? locationId;
+  bool hasNewMatches;
 
-  User({
-    required this.name,
-    required this.uid,
-    required this.email,
-    required this.gender,
-    required this.age,
-    required this.userImages,
-  });
+  User(
+      {required this.name,
+      required this.uid,
+      required this.email,
+      required this.gender,
+      required this.age,
+      required this.userImages,
+      this.isConnected = false,
+        this.hasNewMatches = false,
+      this.locationId});
 
   Map<String, dynamic> toJson() => {
-    'name': name,
-    'uid': uid,
-    'email': email,
-    'gender': gender,
-    'age': age,
-    'userImages': userImages.toJson(), // Convert UserImages sub-collection to JSON
-  };
+        'name': name,
+        'uid': uid,
+        'email': email,
+        'gender': gender,
+        'age': age,
+        'userImages': userImages.toJson(),
+        // Convert UserImages sub-collection to JSON
+        'isConnected': isConnected,
+        'locationId': locationId,
+        'hasNewMatches': hasNewMatches
+      };
 
   static User fromSnapshot(DocumentSnapshot snapshot) {
     var data = snapshot.data() as Map<String, dynamic>;
@@ -38,6 +47,9 @@ class User {
       gender: data['gender'],
       age: data['age'],
       userImages: userImages,
+      isConnected: data['isConnected'],
+      locationId: data['locationId'],
+      hasNewMatches: data['hasNewMatches']
     );
   }
 }

@@ -3,10 +3,10 @@ import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/bottom_navigation_controller.dart';
 import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
+import 'package:coffinder/controllers/user_controller.dart';
 import 'package:coffinder/screens/chats_screen.dart';
 import 'package:coffinder/screens/coffee_shop_screen.dart';
 import 'package:coffinder/screens/matches_screen.dart';
-import 'package:coffinder/screens/messages_screen.dart';
 import 'package:coffinder/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,11 +22,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late ThemeController _themeController;
+  late PlatformController _platformController;
+  late UserController _userController;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    Get.put(BottomNavigationController());
+    Get.find<BottomNavigationController>();
+    _themeController = Get.find<ThemeController>();
+    _platformController = Get.find<PlatformController>();
+    _userController = Get.find<UserController>();
   }
 
   @override
@@ -34,11 +41,11 @@ class _HomePageState extends State<HomePage> {
     return Obx(() {
       return Scaffold(
         appBar: AppBar(
-          title: Text("Coffinder"),
+          title: const Text("Coffinder"),
           leading: IconButton(
             icon: Icon(
               Icons.exit_to_app_outlined,
-              color: Get.find<ThemeController>().appTheme.colorScheme.error,
+              color: _themeController.appTheme.colorScheme.error,
             ),
             onPressed: () {
               authController.signOut();
@@ -47,15 +54,14 @@ class _HomePageState extends State<HomePage> {
           actions: [
             Obx(() {
               return IconButton(
-                icon: Icon(Get.find<ThemeController>().appTheme == lightTheme
+                icon: Icon(_themeController.appTheme == lightTheme
                     ? Icons.dark_mode_outlined
                     : Icons.light_mode_outlined),
                 onPressed: () {
-                  Get.find<ThemeController>().setTheme(
-                      newThemeData:
-                          Get.find<ThemeController>().appTheme == lightTheme
-                              ? darkTheme
-                              : lightTheme);
+                  _themeController.setTheme(
+                      newThemeData: _themeController.appTheme == lightTheme
+                          ? darkTheme
+                          : lightTheme);
                 },
               );
             })
@@ -63,9 +69,8 @@ class _HomePageState extends State<HomePage> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            Get.find<PlatformController>().setIsConnectedToPlatform(
-                isConnected:
-                    !Get.find<PlatformController>().isConnectedToPlatform);
+            _platformController.setIsConnectedToPlatform(
+                isConnected: !_platformController.isConnectedToPlatform);
             QRModalBottomSheetUtility.buildQRScanBottomSheet(context);
           },
           child: const Icon(
@@ -75,16 +80,14 @@ class _HomePageState extends State<HomePage> {
         ),
         body: Padding(
           padding: PaddingUtility.xSmallAllPadding,
-          child: Container(
-            child: IndexedStack(
-              index: Get.find<BottomNavigationController>().currentTabIndex,
-              children: [
-                CoffeeShopScreen(),
-                ChatsScreen(),
-                MatchesScreen(),
-                ProfileScreen()
-              ],
-            ),
+          child: IndexedStack(
+            index: Get.find<BottomNavigationController>().currentTabIndex,
+            children: [
+              CoffeeShopScreen(),
+              ChatsScreen(),
+              MatchesScreen(),
+              const ProfileScreen()
+            ],
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
@@ -92,17 +95,43 @@ class _HomePageState extends State<HomePage> {
           onTap: (index) {
             Get.find<BottomNavigationController>()
                 .setCurrentTabIndex(index: index);
+            if (index == 2) {
+              Get.find<UserController>().setHasNewMatches(
+                  hasNewMessages: false, userId: authController.user.uid);
+            }
           },
           currentIndex: Get.find<BottomNavigationController>().currentTabIndex,
           showSelectedLabels: true,
-          items: const [
-            BottomNavigationBarItem(
+          items: [
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.coffee_outlined), label: "Coffe Shop"),
-            BottomNavigationBarItem(
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.chat_outlined), label: "Chats"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.notification_add_outlined), label: "Matches"),
-            BottomNavigationBarItem(
+                icon: Obx(() {
+                  return Stack(
+                    children: [
+                      _userController.hasNewMatches == true
+                          ? Positioned(
+                              top: 0,
+                              left: 3,
+                              child: Container(
+                                width: 12,
+                                height: 12,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: _themeController
+                                      .appTheme.colorScheme.primary,
+                                ),
+                              ),
+                            )
+                          : const SizedBox(),
+                      const Icon(Icons.notification_add_outlined),
+                    ],
+                  );
+                }),
+                label: "Matches"),
+            const BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle_outlined), label: "Profile"),
           ],
         ),

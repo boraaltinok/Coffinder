@@ -1,4 +1,3 @@
-import 'package:coffinder/main.dart';
 import 'package:coffinder/screens/AuthScreens/SignInScreens/sign_in_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/add_photos_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/age_selection_screen.dart';

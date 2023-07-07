@@ -1,23 +1,27 @@
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:coffinder/Utilities/RadiusUtility.dart';
 import 'package:coffinder/fake_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../Utilities/FontSizeUtility.dart';
 import '../controllers/theme_controller.dart';
 
 class UserCard extends StatelessWidget {
-  UserCard({Key? key, this.isSmallCard = false}) : super(key: key){
-    final random = Random();
-    final randomIndex = random.nextInt(FakeData().images.length);
-    selectedImage = FakeData().images[randomIndex];
-  }
+  const UserCard({
+    Key? key,
+    this.isSmallCard = false,
+    required this.userName,
+    required this.age,
+    required this.bio,
+    required this.selectedImage, // Accept selectedImage parameter
+  }) : super(key: key);
+
   final bool isSmallCard;
-
-  late final String selectedImage; // Declare the selected image
-
+  final String userName;
+  final String age;
+  final String bio;
+  final String selectedImage; // Declare the selected image
 
   // generates a new Random object
 
@@ -26,16 +30,16 @@ class UserCard extends StatelessWidget {
     // generate a random index based on the list length
 // and use it to retrieve the element
     return Container(
-      width: isSmallCard ? Get.height / 3 : 300,
-      height: isSmallCard ? Get.height / 5 : 400,
+      width: isSmallCard ? Get.height / 3 : Get.width,
+      height: isSmallCard ? Get.height / 5 : Get.height,
       decoration: BoxDecoration(
-          color: Colors.blue, borderRadius: BorderRadius.circular(15)),
+          color: Colors.blue, borderRadius: RadiusUtility.smallBorderCircularRadius),
       child: Stack(
         children: [
           Obx(() {
             return Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: RadiusUtility.smallBorderCircularRadius,
                 color: Get.find<ThemeController>()
                     .appTheme
                     .colorScheme
@@ -43,22 +47,25 @@ class UserCard extends StatelessWidget {
               ),
             );
           }),
-          Positioned(
-            top: isSmallCard ? 3 : 6,
-            right: isSmallCard ? 3 : 6,
-            left: isSmallCard ? 3 : 6,
-            bottom: isSmallCard ? 30 : 130,
+          Positioned.fill(
+            top: isSmallCard ? 3 : 0,
+            right: isSmallCard ? 3 : 0,
+            left: isSmallCard ? 3 : 0,
+            bottom: isSmallCard ? 30 : 0,
             child: ClipRRect(
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15), topRight: Radius.circular(15)),
-              child: CachedNetworkImage(
-                fit: BoxFit.cover,
-                imageUrl: selectedImage,
-              ),
+                  topLeft: RadiusUtility.smallCircularRadius,
+                  topRight: RadiusUtility.smallCircularRadius),
+              child: selectedImage.isNotEmpty
+                  ? CachedNetworkImage(
+                      fit: BoxFit.cover,
+                      imageUrl: selectedImage,
+                    )
+                  : null,
             ),
           ),
           Positioned(
-            top: isSmallCard ? null : 270,
+            top: isSmallCard ? null : null,
             left: 6,
             right: 6,
             bottom: isSmallCard ? 5 : 10,
@@ -67,26 +74,24 @@ class UserCard extends StatelessWidget {
               children: [
                 Container(
                     child: Text(
-                  'Foid, 24',
+                  '${userName}, ${age}',
                   style: TextStyle(
                       fontSize: isSmallCard
                           ? FontSizeUtility.font20
-                          : FontSizeUtility.font35),
+                          : FontSizeUtility.font35).copyWith(color: Get.find<ThemeController>().appTheme.colorScheme.surface, fontWeight: FontWeight.bold),
                 )),
                 isSmallCard
-                    ? SizedBox(
+                    ? const SizedBox(
                         width: 0,
                         height: 0,
                       )
-                    : Container(
-                        child: Text(
-                          "I love fitness and sucking cocks. Buy me coffe",
-                          style: TextStyle(fontSize: FontSizeUtility.font20),
-                        ),
+                    : Text(
+                        bio + "Hey. I am from Bilkent University. I love eating in Bilka! hit me upppppppppp ",
+                        style: TextStyle(fontSize: FontSizeUtility.font20).copyWith(color: Get.find<ThemeController>().appTheme.colorScheme.surface),
                       )
               ],
             ),
-          ),
+          )
         ],
       ),
     );
