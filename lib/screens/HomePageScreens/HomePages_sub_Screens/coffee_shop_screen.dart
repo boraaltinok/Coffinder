@@ -1,6 +1,6 @@
 import 'package:coffinder/Utilities/QRModalBottomSheetUtility.dart';
-import 'package:coffinder/screens/barcode_scan_page.dart';
-import 'package:coffinder/screens/platform_screen.dart';
+import 'package:coffinder/screens/BarcodeScanScreens/barcode_scan_page.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/PlatformScreens/platform_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

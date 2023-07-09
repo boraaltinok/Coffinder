@@ -6,13 +6,13 @@ import 'package:coffinder/Widgets/user_card.dart';
 import 'package:coffinder/Widgets/user_platform_card.dart';
 import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/platform_controller.dart';
-import 'package:coffinder/screens/MatchedBottomSheet.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/PlatformScreens/MatchedBottomSheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_card_swiper/flutter_card_swiper.dart';
 import 'package:get/get.dart';
 
-import '../Models/user.dart';
-import '../Utilities/QRModalBottomSheetUtility.dart';
+import '../../../../Models/user.dart';
+import '../../../../Utilities/QRModalBottomSheetUtility.dart';
 
 class PlatformScreen extends StatefulWidget {
   const PlatformScreen({Key? key}) : super(key: key);
@@ -211,8 +211,9 @@ class _PlatformScreenState extends State<PlatformScreen> {
             userImageList:
                 _platformController.connectedUsers[index].userImages.images,
             selectedImage: _platformController
-                .connectedUsers[index].userImages.images[index].imageUrl,
-            age: '1',
+                .connectedUsers[index].userImages.images[0].imageUrl,
+            age: _platformController
+                .connectedUsers[index].age.toString(),
             bio: index.toString(),
           ),
         );

@@ -38,8 +38,11 @@ class MessagesController extends GetxController {
         .orderBy('timestamp', descending: true)
         .limit(limit)
         .snapshots()
-        .map((snapshot) =>
-            snapshot.docs.map((doc) => Message.fromSnapshot(doc)).toList().reversed.toList()));
+        .map((snapshot) => snapshot.docs
+            .map((doc) => Message.fromSnapshot(doc))
+            .toList()
+            .reversed
+            .toList()));
   }
 
   void _unsubscribeFromMessages(String chatId) {

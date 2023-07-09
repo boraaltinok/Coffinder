@@ -8,7 +8,7 @@ import 'package:coffinder/fake_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Models/user.dart';
+import '../../../../Models/user.dart';
 
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({required this.contactUser, this.chatId, Key? key})

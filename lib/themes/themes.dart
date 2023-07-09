@@ -1,5 +1,5 @@
 
-import 'package:coffinder/color_schemes.g.dart';
+import 'package:coffinder/themes/color_schemes.g.dart';
 import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(useMaterial3: true, colorScheme: lightColorScheme).copyWith(

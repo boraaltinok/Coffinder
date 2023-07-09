@@ -4,15 +4,15 @@ import 'package:coffinder/controllers/bottom_navigation_controller.dart';
 import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
 import 'package:coffinder/controllers/user_controller.dart';
-import 'package:coffinder/screens/chats_screen.dart';
-import 'package:coffinder/screens/coffee_shop_screen.dart';
-import 'package:coffinder/screens/matches_screen.dart';
-import 'package:coffinder/screens/profile_screen.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/chats_screen.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/coffee_shop_screen.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/matches_screen.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Utilities/QRModalBottomSheetUtility.dart';
-import '../themes/themes.dart';
+import '../../Utilities/QRModalBottomSheetUtility.dart';
+import '../../themes/themes.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -85,8 +85,8 @@ class _HomePageState extends State<HomePage> {
             children: [
               CoffeeShopScreen(),
               ChatsScreen(),
-              MatchesScreen(),
-              const ProfileScreen()
+              //MatchesScreen(),
+              //ProfileScreen()
             ],
           ),
         ),

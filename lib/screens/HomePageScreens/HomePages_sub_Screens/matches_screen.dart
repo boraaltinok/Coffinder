@@ -5,8 +5,8 @@ import 'package:coffinder/fake_data.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Models/user.dart';
-import '../Utilities/QRModalBottomSheetUtility.dart';
+import '../../../Models/user.dart';
+import '../../../Utilities/QRModalBottomSheetUtility.dart';
 
 class MatchesScreen extends StatelessWidget {
   MatchesScreen({Key? key}) : super(key: key);

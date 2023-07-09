@@ -6,36 +6,46 @@ import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/user_controller.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../Models/user.dart'; // Import your existing User model
+import '../Models/user.dart' as userModel; // Import your existing User model
+import 'package:firebase_auth/firebase_auth.dart';
 
 class PlatformController extends GetxController {
-  final RxList<User> _connectedUsers = <User>[].obs;
+  final RxList<userModel.User> _connectedUsers = <userModel.User>[].obs;
   final RxList<String> _swipedUsers = <String>[].obs;
   final Rx<bool> _isConnectedToPlatform = Rx<bool>(false);
 
-  List<User> get connectedUsers => _connectedUsers.value;
+  List<userModel.User> get connectedUsers => _connectedUsers.value;
 
   List<String> get swipedUsers => _swipedUsers.value;
 
-
   bool get isConnectedToPlatform => _isConnectedToPlatform.value;
-
 
   @override
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    _bindConnectedUsers();
-    _bindSwipedUsers();
+    _subscribeToAuthChanges();
   }
 
+  Future<void> _subscribeToAuthChanges() async {
+    firebaseAuth.authStateChanges().listen((User? user) {
+      if (user != null) {
+        // User is logged in, bind the data
+        _bindConnectedUsers(userId: user.uid);
+        _bindSwipedUsers(userId: user.uid);
+      } else {
+        // User is logged out, clear the data
+        print("binding currentUser ${user?.uid} ");
 
-
+        _swipedUsers.clear();
+      }
+    });
+  }
 
   /// Binds the connected users to the platform controller by retrieving their
   /// user documents from the 'connected_users' collection in the specified location.
   /// The retrieved user documents are used to populate the [_connectedUsers] list.
-  void _bindConnectedUsers() {
+  void _bindConnectedUsers({required String userId}) {
     _connectedUsers.bindStream(firestore
         .collection('locations')
         .doc('Starbucks')
@@ -43,7 +53,7 @@ class PlatformController extends GetxController {
         .snapshots()
         .asyncMap((QuerySnapshot query) async {
       List<String> connectedUserIds = query.docs.map((doc) => doc.id).toList();
-      List<User> connectedUsers = [];
+      List<userModel.User> connectedUsers = [];
       print("connectedUserIds.length ${connectedUserIds.length}");
 
       for (String userId in connectedUserIds) {
@@ -52,7 +62,7 @@ class PlatformController extends GetxController {
             await firestore.collection('users').doc(userId).get();
         if (userDoc.exists) {
           print("AND FOUND USER EXISTS!");
-          User user = User.fromSnapshot(userDoc);
+          userModel.User user = userModel.User.fromSnapshot(userDoc);
           connectedUsers.add(user);
         }
       }
@@ -60,12 +70,12 @@ class PlatformController extends GetxController {
     }));
   }
 
-  void _bindSwipedUsers() {
+  void _bindSwipedUsers({required String userId}) {
     _swipedUsers.bindStream(firestore
         .collection('locations')
         .doc('Starbucks')
         .collection('connected_users')
-        .doc(authController.user.uid)
+        .doc(userId)
         .collection('swipes')
         .snapshots()
         .map((QuerySnapshot query) {
@@ -83,13 +93,12 @@ class PlatformController extends GetxController {
     }));
   }
 
-
   Future<bool> handleSwipe(
       {required SwipeTypeEnum swipeTypeEnum,
       required String swipedUserId}) async {
     bool isMatched = false;
     try {
-      User? currentUser =
+      userModel.User? currentUser =
           await authController.getUser(userId: authController.user.uid);
       Swipe swipe = Swipe(
           swipeId: 'error',

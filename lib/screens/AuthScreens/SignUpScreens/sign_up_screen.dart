@@ -2,7 +2,7 @@ import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/sign_up_process_controller.dart';
 import 'package:coffinder/routing/app_routes.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/gender_selection_screen.dart';
-import 'package:coffinder/screens/home_page.dart';
+import 'package:coffinder/screens/HomePageScreens/home_page.dart';
 import 'package:coffinder/screens/AuthScreens/SignInScreens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';

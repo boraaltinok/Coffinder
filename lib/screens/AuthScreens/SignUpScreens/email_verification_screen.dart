@@ -6,7 +6,7 @@ import 'package:coffinder/Utilities/SnackBarUtility.dart';
 import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/sign_up_process_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
-import 'package:coffinder/screens/home_page.dart';
+import 'package:coffinder/screens/HomePageScreens/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';

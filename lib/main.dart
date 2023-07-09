@@ -8,7 +8,7 @@ import 'package:coffinder/controllers/theme_controller.dart';
 import 'package:coffinder/fake_data.dart';
 import 'package:coffinder/routing/app_routes.dart';
 import 'package:coffinder/controllers/user_controller.dart';
-import 'package:coffinder/screens/home_page.dart';
+import 'package:coffinder/screens/HomePageScreens/home_page.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/page_view_intro_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
 import 'package:coffinder/themes/themes.dart';

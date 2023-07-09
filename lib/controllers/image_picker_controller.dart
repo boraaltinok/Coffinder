@@ -59,7 +59,6 @@ class ImagePickerController extends GetxController {
 
     for (var image in selectedImages) {
       if (image != null) {
-        print("inside");
         String downloadUrl = await _uploadToStorage(image);
         // Save the download URL to Firestore or perform any necessary actions
         print('Image uploaded to Firebase Storage. Download URL: $downloadUrl');

@@ -4,11 +4,11 @@ import 'package:coffinder/Utilities/PaddingUtility.dart';
 import 'package:coffinder/Utilities/TextStyleUtility.dart';
 import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/theme_controller.dart';
-import 'package:coffinder/screens/messages_screen.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/MessagesScreens/messages_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-import '../Models/user.dart';
+import '../../../../Models/user.dart';
 import 'package:get/get.dart';
 
 class MatchedBottomSheet extends StatelessWidget {

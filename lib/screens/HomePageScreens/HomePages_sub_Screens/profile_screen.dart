@@ -6,32 +6,14 @@ import 'package:coffinder/controllers/user_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatelessWidget {
+  ProfileScreen({Key? key}) : super(key: key);
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   final TextEditingController _bioController = TextEditingController(
     text: "18 years young 18cm hung, fresh out of prison. XOX",
   );
 
   final UserController userController = Get.find<UserController>();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _fetchCurrentUserImages();
-    print("after fetch ${userController.userImages.value}");
-  }
-
-//
-  Future<void> _fetchCurrentUserImages() async {
-    await userController.fetchCurrentUserImages();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,25 +35,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SizedBox(
                 height: Get.height * 4 / 10,
                 width: Get.width,
-                child: Stack(
-                  children: [
-                    Obx(() {
-                      String? firstUserImage;
-                      List<UserImage?> userImages =
-                          userController.userImages.value;
-
-                      if (userImages.isNotEmpty && userImages != null) {
-                        firstUserImage = userImages[0]?.imageUrl;
-                      }
-                      bool isUserImageEmpty =
-                          firstUserImage == null || firstUserImage.isEmpty;
-
-                      return Container(
+                child: Obx(() {
+                  return Stack(
+                    children: [
+                      Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
                               image: CachedNetworkImageProvider(
-                                !isUserImageEmpty
-                                    ? firstUserImage!
+                                userController.userImages.isNotEmpty
+                                    ? userController.userImages[0].imageUrl
                                     : 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Jeremy_Meeks_Mug_Shot.jpg/640px-Jeremy_Meeks_Mug_Shot.jpg',
                               ),
                               fit: BoxFit.cover,
@@ -81,29 +53,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 .colorScheme
                                 .surfaceVariant,
                             borderRadius:
-                                RadiusUtility.smallBorderCircularRadius)
-                      );
-                    }),
-                    Positioned(
-                        top: 5,
-                        right: 5,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_a_photo_outlined,
-                              size: 35,
-                            ))),
-                    Positioned(
-                        top: 45,
-                        right: 5,
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.add_photo_alternate_outlined,
-                              size: 35,
-                            ))),
-                  ],
-                ),
+                                RadiusUtility.smallBorderCircularRadius),
+                      ),
+                      Positioned(
+                          top: 5,
+                          right: 5,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.add_a_photo_outlined,
+                                size: 35,
+                              ))),
+                      Positioned(
+                          top: 45,
+                          right: 5,
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.add_photo_alternate_outlined,
+                                size: 35,
+                              ))),
+                    ],
+                  );
+                }),
               ),
               Expanded(
                 child: SingleChildScrollView(

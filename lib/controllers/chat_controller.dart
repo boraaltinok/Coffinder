@@ -1,11 +1,9 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffinder/Models/chat.dart';
 import 'package:coffinder/Models/message.dart';
 import 'package:coffinder/Utilities/RandomIdGenerator.dart';
 import 'package:get/get.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import '../constants/constants.dart';
 
 class ChatController extends GetxController {
@@ -29,10 +27,23 @@ class ChatController extends GetxController {
   void onReady() {
     // TODO: implement onReady
     super.onReady();
-    _bindCurrentChats();
+    _subscribeToAuthChanges();
   }
 
-  void _bindCurrentChats() {
+  Future<void> _subscribeToAuthChanges() async {
+    firebaseAuth.authStateChanges().listen((User? user) {
+      if (user != null) {
+        // User is logged in, bind the data
+        _bindCurrentChats(userId: user.uid);
+      } else {
+        // User is logged out, clear the data
+        _currentChats.clear();
+      }
+    });
+  }
+
+  void _bindCurrentChats({required String userId}) {
+    _currentChats.value = [];
     _currentChats.bindStream(firestore
         .collection('locations')
         .doc('Starbucks')
@@ -51,15 +62,19 @@ class ChatController extends GetxController {
           print("FOUND A CHAT $currentChatId");
           Chat chat = await getChat(chatId: currentChatId);
           print("await getChat result id : ${chat.chatId}");
-          tmpCurrentChats.add(chat);
+          if (chat.participants.contains(userId)) {
+            tmpCurrentChats.add(chat);
+          }
         }
         return tmpCurrentChats;
       }
     }));
   }
 
-  Future<String> createChat({required List<
-      String> participants, required String locationId, required String initialMessageText}) async {
+  Future<String> createChat(
+      {required List<String> participants,
+      required String locationId,
+      required String initialMessageText}) async {
     if (participants.length != 2) {
       throw ArgumentError(
           'Participants list must contain exactly two participants.');
@@ -71,14 +86,14 @@ class ChatController extends GetxController {
       String randomMessageId = RandomIdGenerator.generateUniqueId();
       String currentUserId = authController.user.uid;
       String receiverId;
-      if(participants[0] == currentUserId){
+      if (participants[0] == currentUserId) {
         receiverId = participants[1];
-      }else{
+      } else {
         receiverId = participants[0];
-
       }
 
-      Message initialMessage = Message(messageId: randomMessageId,
+      Message initialMessage = Message(
+          messageId: randomMessageId,
           senderId: currentUserId,
           receiverId: receiverId,
           messageText: initialMessageText,
@@ -98,8 +113,10 @@ class ChatController extends GetxController {
           .doc(randomChatId)
           .set(chat.toJson());
 
-      await sendMessage(receiverId: receiverId, txtContent: initialMessageText, chatId: randomChatId);
-
+      await sendMessage(
+          receiverId: receiverId,
+          txtContent: initialMessageText,
+          chatId: randomChatId);
 
       result = randomChatId;
     } catch (e) {
@@ -109,12 +126,15 @@ class ChatController extends GetxController {
   }
 
   Future sendMessage(
-      {required String receiverId, required String txtContent, required String chatId }) async {
+      {required String receiverId,
+      required String txtContent,
+      required String chatId}) async {
     try {
       String randomId = RandomIdGenerator.generateUniqueId();
       String currentUserId = authController.user.uid;
       Timestamp currentTimestamp = Timestamp.now();
-      Message message = Message(messageId: randomId,
+      Message message = Message(
+          messageId: randomId,
           senderId: currentUserId,
           receiverId: receiverId,
           messageText: txtContent,
@@ -146,8 +166,8 @@ class ChatController extends GetxController {
           .limit(1) // Limit the query to retrieve only one message
           .get();
 
-      return snapshot.docs
-          .isEmpty; // Return true if no message exists in the chat
+      return snapshot
+          .docs.isEmpty; // Return true if no message exists in the chat
     } catch (e) {
       print('Error checking if chat is empty: $e');
       return true; // Consider chat as empty in case of any error

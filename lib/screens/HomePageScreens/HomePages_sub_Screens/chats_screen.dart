@@ -9,14 +9,14 @@ import 'package:coffinder/constants/constants.dart';
 import 'package:coffinder/controllers/chat_controller.dart';
 import 'package:coffinder/controllers/location_controller.dart';
 import 'package:coffinder/controllers/matches_controller.dart';
-import 'package:coffinder/screens/messages_screen.dart';
+import 'package:coffinder/screens/HomePageScreens/HomePages_sub_Screens/MessagesScreens/messages_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../Models/chat.dart';
-import '../Models/user.dart';
-import '../fake_data.dart';
-import '../Models/match.dart';
+import '../../../Models/chat.dart';
+import '../../../Models/user.dart';
+import '../../../fake_data.dart';
+import '../../../Models/match.dart';
 
 class ChatsScreen extends StatefulWidget {
   ChatsScreen({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("printing");
+    print("printin");
   }
 
   @override

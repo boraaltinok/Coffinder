@@ -6,7 +6,7 @@ import 'package:coffinder/screens/AuthScreens/SignUpScreens/gender_selection_scr
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/page_view_intro_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
 import 'package:coffinder/screens/AuthScreens/select_auth_method_screen.dart';
-import 'package:coffinder/screens/home_page.dart';
+import 'package:coffinder/screens/HomePageScreens/home_page.dart';
 import 'package:get/get.dart';
 
 

@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:coffinder/controllers/image_picker_controller.dart';
+import 'package:coffinder/controllers/platform_controller.dart';
 import 'package:coffinder/controllers/sign_up_process_controller.dart';
 import 'package:coffinder/controllers/user_controller.dart';
 import 'package:coffinder/main.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/add_photos_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/email_verification_screen.dart';
 import 'package:coffinder/screens/AuthScreens/select_auth_method_screen.dart';
-import 'package:coffinder/screens/home_page.dart';
+import 'package:coffinder/screens/HomePageScreens/home_page.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/page_view_intro_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignInScreens/sign_in_screen.dart';
 import 'package:coffinder/screens/AuthScreens/SignUpScreens/sign_up_screen.dart';
@@ -21,6 +22,7 @@ import '../Models/user_images.dart';
 import '../Utilities/SnackBarUtility.dart';
 import '../constants/constants.dart';
 import '../Models/user.dart' as userModel;
+
 
 
 class AuthController extends GetxController{
@@ -51,21 +53,18 @@ class AuthController extends GetxController{
     _user.bindStream(firebaseAuth
         .authStateChanges()); //whenever authStateChanges user value will also change = binding
     ever(_user,
-        _setInitialScreen); //whenever there is change in the user call _setInitialScreen method
+        _handleAuthChange); //whenever there is change in the user call _setInitialScreen method
   }
 
-  _setInitialScreen(User? user) async {
+  _handleAuthChange(User? user) async {
     if (user == null ) {
       Get.offAll(() => SelectAuthMethodScreen());
       Get.find<SignUpProcessController>().initializeValues();
       Get.find<ImagePickerController>().initializeVariables();
-
       //Get.offAll(() => const SignUpScreen());
       //Get.offAll(()=>HomePage());
     } else {
-
-
-        userModel.User? currentUser = await authController.getUser(userId: user.uid);
+      userModel.User? currentUser = await authController.getUser(userId: user.uid);
 
 
       print('UID IS : ${user.uid}');
